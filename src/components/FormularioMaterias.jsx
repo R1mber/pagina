@@ -1,24 +1,67 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { doc, getDoc,updateDoc , setDoc,addDoc,collection } from "firebase/firestore";
+import { query, where, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
+
 export default function FormularioMateria(){
+    const [materias, setMaterias] = useState();
+    const [materia, setMateria] = useState("");
+
+    const getMaterias = async () =>{
+        try {
+            let docs=[];
+            const materias = await getDocs(query(collection(db,'Materias')));
+            materias.forEach((doc) => {
+                docs.push(doc.data());
+            });
+            setMaterias(docs);
+        } catch (error) {
+            console.log('Error al obtener materias', error);
+        }
+    }
+    const registrarMateria = async () =>{
+        try {
+            console.log(materia);
+            if(materia === '' || materia === undefined){
+                console.log("debe escribir El nombre de la materia");
+                return
+            }
+            let idMateria = materia;
+            idMateria = idMateria.replace(/\s/g, '');
+            const docData = {
+                id:idMateria,
+                nombre:materia,
+                cantidadPreguntas:0,
+            };
+            setMateria('');
+            await addDoc(collection(db, 'Materias'), docData);
+            console.log('registro exitoso');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const submit = (e) =>{
+        e.preventDefault();
+        registrarMateria();
+    }
+
+    useEffect(()=>{
+        getMaterias();
+    },[]);
     return(
         <Fragment>
             <h1>agregar Materia</h1>
-            <form>
+            <form onSubmit={submit} >
                 <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1"/>
-                </div>
-                <div className="mb-3 form-check">
-                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                    <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+                    <label htmlFor="nombre" className="form-label">Nombre Materia</label>
+                    <input type="text" value={materia} onChange={(e)=>setMateria(e.target.value)} className="form-control" id="nombre"/>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            {materias && materias.map((item) => {
+                return <p key={item.id}>{item.nombre}</p>
+            })}
         </Fragment>
     );
 }

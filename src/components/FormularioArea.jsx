@@ -1,24 +1,29 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 export default function FormularioArea(){
+    const [area, setArea] = useState("");
+    const [areas, setAreas] = useState([]);
+    const submit = (e) => {
+        e.preventDefault();
+        console.log(area);
+    }
+    useEffect(()=>{
+        console.log(area);
+    },[area]);
+    
     return(
         <Fragment>
             <h1>agregar Area</h1>
-            <form>
+            <form onSubmit={submit} >
                 <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1"/>
-                </div>
-                <div className="mb-3 form-check">
-                    <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                    <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+                    <label htmlFor="nombre" className="form-label">Nombre de Area</label>
+                    <input type="text" value={area} onChange={(e)=>setArea(e.target.value)} className="form-control" id="nombre"/>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            {areas && areas.map((item) => {
+                return <p key={item.id}>{item.nombre}</p>
+            })
+            }
         </Fragment>
     );
 }
