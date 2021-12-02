@@ -6,6 +6,7 @@ import { db } from "../config/firebase";
 
 export default function Formulario(){
 
+    const [disableButton, setDisableButton] = useState(false);
     const [pregunta, setPregunta] = useState("");
     const [formula, setFormula] = useState('');
 
@@ -78,12 +79,21 @@ export default function Formulario(){
     }
     
     const actulizaropcion = (e,opcion) => {
-        switch(opcion){
-            case 'op1':setSrtrOpcion1(e.target.value); break;
-            case 'op2':setSrtrOpcion2(e.target.value); break;
-            case 'op3':setSrtrOpcion3(e.target.value); break;
-            case 'opC':setSrtrOpcion4(e.target.value); break;
-            default: console.log('no existe opcion');
+        if(opcion!=='cls'){
+            switch(opcion){
+                case 'op1':setSrtrOpcion1(e.target.value); break;
+                case 'op2':setSrtrOpcion2(e.target.value); break;
+                case 'op3':setSrtrOpcion3(e.target.value); break;
+                case 'opC':setSrtrOpcion4(e.target.value); break;
+                default: console.log('no existe opcion');
+            }
+        }else{
+            setSrtrOpcion1(""); 
+            setSrtrOpcion2(""); 
+            setSrtrOpcion3(""); 
+            setSrtrOpcion4(""); 
+            setSrtrPregunta("");
+
         }
         //setRespuesta(e.target.value);
     }
@@ -96,6 +106,7 @@ export default function Formulario(){
 
     const registrarPregunta = async () =>{
         try {
+            setDisableButton(true);
             let cantidad=0;
             let idMateria='';
             if(materia === 0 || materia === '0' || materia === ''){
@@ -121,7 +132,8 @@ export default function Formulario(){
 
             await addDoc(collection(db, materia), docData);
             console.log('registro exitoso');
-
+            actulizaropcion('cls','cls');
+            setDisableButton(false);
         } catch (error) {
             console.log(error);
         }
@@ -181,28 +193,28 @@ export default function Formulario(){
                 </select>
                 <div className="mb-0 row g-3">
                     <label htmlFor="pregunta" className="form-label">Pregunta</label>
-                    <input onChange={actulizarPregunta} type="text" className="form" id="pregunta"/>
+                    <input value={srtrPregunta} onChange={actulizarPregunta} type="text" className="form" id="pregunta"/>
                   {/*  <button className="col-sm-3">agregar fromula matematica</button>*/}
 
                 </div>
                 <div className="mb-0">
                     <label htmlFor="opcion1" className="form-label">Opcion 1</label>
-                    <input type="text" onChange={(e)=>actulizaropcion(e, 'op1')} className="form-control" id="opcion1"/>
+                    <input type="text" value={srtrOpcion1} onChange={(e)=>actulizaropcion(e, 'op1')} className="form-control" id="opcion1"/>
                 </div>
                 <div className="mb-0">
                     <label htmlFor="opcion2" className="form-label">Opcion 2</label>
-                    <input type="text" onChange={(e)=>actulizaropcion(e, 'op2')} className="form-control" id="opcion2"/>
+                    <input type="text" value={srtrOpcion2} onChange={(e)=>actulizaropcion(e, 'op2')} className="form-control" id="opcion2"/>
                 </div>
                 <div className="mb-0">
                     <label htmlFor="opcion3" className="form-label">Opcion 3</label>
-                    <input type="text" onChange={(e)=>actulizaropcion(e, 'op3')} className="form-control" id="opcion3"/>
+                    <input type="text" value={srtrOpcion3} onChange={(e)=>actulizaropcion(e, 'op3')} className="form-control" id="opcion3"/>
                 </div>
                 <div className="mb-0">
                     <label htmlFor="opciontrue" className="form-label">opcion Correcta</label>
-                    <input type="text" onChange={(e)=>actulizaropcion(e, 'opC')} className="form-control" id="opciontrue"/>
+                    <input type="text" value={srtrOpcion4} onChange={(e)=>actulizaropcion(e, 'opC')} className="form-control" id="opciontrue"/>
                 </div>
                 <div className="mb-1">
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary" disabled={disableButton}>Submit</button>
                 </div>
             </form>
         </Fragment>

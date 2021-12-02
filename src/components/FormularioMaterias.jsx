@@ -6,6 +6,7 @@ import { db } from "../config/firebase";
 export default function FormularioMateria(){
     const [materias, setMaterias] = useState();
     const [materia, setMateria] = useState("");
+    const [disableButton, setDisableButton] = useState(false);
 
     const getMaterias = async () =>{
         try {
@@ -21,6 +22,7 @@ export default function FormularioMateria(){
     }
     const registrarMateria = async () =>{
         try {
+            setDisableButton(true);
             console.log(materia);
             if(materia === '' || materia === undefined){
                 console.log("debe escribir El nombre de la materia");
@@ -36,6 +38,8 @@ export default function FormularioMateria(){
             setMateria('');
             await addDoc(collection(db, 'Materias'), docData);
             console.log('registro exitoso');
+            setDisableButton(false);
+
         } catch (error) {
             console.log(error);
         }
@@ -57,7 +61,7 @@ export default function FormularioMateria(){
                     <label htmlFor="nombre" className="form-label">Nombre Materia</label>
                     <input type="text" value={materia} onChange={(e)=>setMateria(e.target.value)} className="form-control" id="nombre"/>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary" disabled={disableButton}>Submit</button>
             </form>
             {materias && materias.map((item) => {
                 return <p key={item.id}>{item.nombre}</p>
