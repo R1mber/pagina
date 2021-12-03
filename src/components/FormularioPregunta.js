@@ -210,7 +210,7 @@ export default function Formulario(){
                     <input type="text" value={srtrOpcion3} onChange={(e)=>actulizaropcion(e, 'op3')} className="form-control" id="opcion3"/>
                 </div>
                 <div className="mb-0">
-                    <label htmlFor="opciontrue" className="form-label">opcion Correcta</label>
+                    <label htmlFor="opciontrue" className="form-label">Opcion Correcta</label>
                     <input type="text" value={srtrOpcion4} onChange={(e)=>actulizaropcion(e, 'opC')} className="form-control" id="opciontrue"/>
                 </div>
                 <div className="mb-1">
