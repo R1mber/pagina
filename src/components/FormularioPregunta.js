@@ -193,7 +193,7 @@ export default function Formulario(){
                 </select>
                 <div className="mb-0 row g-3">
                     <label htmlFor="pregunta" className="form-label">Pregunta</label>
-                    <input value={srtrPregunta} onChange={actulizarPregunta} type="text" className="form" id="pregunta"/>
+                    <input value={srtrPregunta} onChange={actulizarPregunta} type="text" className="form-control" id="pregunta"/>
                   {/*  <button className="col-sm-3">agregar fromula matematica</button>*/}
 
                 </div>
