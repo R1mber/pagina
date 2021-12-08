@@ -109,10 +109,7 @@ export default function Formulario(){
             setDisableButton(true);
             let cantidad=0;
             let idMateria='';
-            if(materia === 0 || materia === '0' || materia === ''){
-                console.log("debe seleccionar una materia");
-               return
-            } 
+
             
             const materia_ = await getDocs(query(collection(db,'Materias'), where('id', '==',materia)));
             materia_.forEach((doc) => {
@@ -131,11 +128,13 @@ export default function Formulario(){
             console.log('data updated');
 
             await addDoc(collection(db, materia), docData);
-            console.log('registro exitoso');
+            
             actulizaropcion('cls','cls');
             setDisableButton(false);
+            alert('Se guardaron los datos correctamente');
         } catch (error) {
             console.log(error);
+            alert('Ocurrio un error al guardar los datos');
         }
     }
 
@@ -160,6 +159,30 @@ export default function Formulario(){
         console.log(srtrOpcion3);
         console.log(srtrOpcion4);
         console.log(materia);
+        if(materia === 0 || materia === '0' || materia === ''){
+            alert("debe seleccionar una materia");
+           return
+        } 
+        if(srtrPregunta === '' || srtrPregunta === null || srtrPregunta === undefined){
+            alert('debe ingresar una pregunta');
+            return
+        }
+        if(srtrOpcion1 === '' || srtrOpcion1 === null || srtrOpcion1 === undefined){
+            alert('debe ingresar la opcion 1');
+            return
+        }
+        if(srtrOpcion2 === '' || srtrOpcion2 === null || srtrOpcion2 === undefined){
+            alert('debe ingresar la opcion 2');
+            return
+        }
+        if(srtrOpcion3 === '' || srtrOpcion3 === null || srtrOpcion3 === undefined){
+            alert('debe ingresar la opcion 3');
+            return
+        }
+        if(srtrOpcion4 === '' || srtrOpcion4 === null || srtrOpcion4 === undefined){
+            alert('debe ingresar la opcion correcta');
+            return
+        }
 
         registrarPregunta();
     }
@@ -184,18 +207,20 @@ export default function Formulario(){
             <button onClick={procesarTexto}>procesar</button>
             {mostrarTextoProcesado()}*/}
             <form onSubmit={submit}>
-                Seleccione una materia:
-                <select className="form-select" onChange={(e)=>setMateria(e.target.value)}>
-                    <option value="0">seleccione una materia</option>
-                    {materias.map((item) => {
+                <div className="form-floating">
+                    <select className="form-select" onChange={(e)=>setMateria(e.target.value)} id="floatingSelect" aria-label="Floating label select example">
+                        <option value="0">seleccione una materia</option>
+                        {materias.map((item) => {
                         return <option key={item.id} value={item.id}>{item.nombre}</option>
-                    })}
-                </select>
-                <div className="mb-0 row g-3">
-                    <label htmlFor="pregunta" className="form-label">Pregunta</label>
-                    <input value={srtrPregunta} onChange={actulizarPregunta} type="text" className="form-control" id="pregunta"/>
-                  {/*  <button className="col-sm-3">agregar fromula matematica</button>*/}
-
+                        })}
+                    </select>
+                    <label htmlFor="floatingSelect">Seleccione una materia</label>
+                </div>
+                <br/>
+                <div className="form-floating">
+                    <textarea value={srtrPregunta} onChange={actulizarPregunta} className="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{height: 100}}></textarea>
+                    {/*  <button className="col-sm-3">agregar fromula matematica</button>*/}
+                    <label htmlFor="floatingTextarea2">Pregunta</label>
                 </div>
                 <div className="mb-0">
                     <label htmlFor="opcion1" className="form-label">Opcion 1</label>
@@ -213,10 +238,54 @@ export default function Formulario(){
                     <label htmlFor="opciontrue" className="form-label">Opcion Correcta</label>
                     <input type="text" value={srtrOpcion4} onChange={(e)=>actulizaropcion(e, 'opC')} className="form-control" id="opciontrue"/>
                 </div>
-                <div className="mb-1">
-                    <button type="submit" className="btn btn-primary" disabled={disableButton}>Submit</button>
-                </div>
+
             </form>
+            <br/>
+            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" disabled={disableButton}>
+                Guardar pregunta
+            </button>
+
+
+            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Verifique sus datos</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div className="modal-body">
+                    <div class="alert alert-success" role="alert">
+                        Materia: {materia}
+                    </div>
+                    
+                    <div class="alert alert-primary" role="alert">
+                    Pregunta: {pregunta}
+                    </div>
+                    <div class="alert alert-success" role="alert">
+                    Opcion 1 : {srtrOpcion1}
+                    </div>
+                    <div class="alert alert-success" role="alert">
+                    Opcion 2 : {srtrOpcion2}
+                    </div>
+                    <div class="alert alert-success" role="alert">
+                    Opcion 3 : {srtrOpcion3}
+                    </div>
+
+                    <div class="alert alert-info" role="alert">
+                    Opcion Correcta : {srtrOpcion4}
+                    </div>
+
+
+                    
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" className="btn btn-primary" onClick={submit} data-bs-dismiss="modal">Guardar Pregunta</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
         </Fragment>
     );
 }
