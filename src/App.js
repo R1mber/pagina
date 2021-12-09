@@ -3,6 +3,7 @@ import FormularioMaterias from './components/FormularioMaterias';
 import FormularioPregunta from './components/FormularioPregunta';
 import FormularioArea from './components/FormularioArea';
 import FormularioCarrera from './components/FormularioCarrera';
+import FormularioPreguntaImagen from './components/FormularioPreguntaImagenes';
 import './App.css';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     pregunta: true,
     area: false,
     carrera: false,
+    preguntaImagen: false,
   });
 
   const changeView = (view) => {
@@ -20,6 +22,7 @@ function App() {
       pregunta: false,
       area: false,
       carrera: false,
+      preguntaImagen: false,
     });
     setButtons({
       [view]: true,
@@ -40,11 +43,15 @@ function App() {
         <button className={buttons.carrera?'btn btn-primary': 'btn btn-secondary'} onClick={() => changeView('carrera')}>
             Carreras
         </button>
+        <button className={buttons.preguntaImagen?'btn btn-primary': 'btn btn-secondary'} onClick={() => changeView('preguntaImagen')}>
+        pregunta con Imagen
+        </button>
       </center>
         {buttons.materias?<FormularioMaterias/>:null}
         {buttons.pregunta?<FormularioPregunta/>:null}
         {buttons.area?<FormularioArea/>:null}
         {buttons.carrera?<FormularioCarrera/>:null}
+        {buttons.preguntaImagen?<FormularioPreguntaImagen/>:null}
     </div>
   );
 }
