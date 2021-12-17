@@ -88,9 +88,14 @@ export default function FormularioCarrera(){
         //update Areas
         const area = await getDoc(doc(db, "Areas", areaSeleccionada));
         if(area.exists()){
-            console.log("area seleccionada",area.data().carreras);
-            const Ca=[...area.data().carreras, {idCarrera:adD.id, nombre:nombreCarrera}];
-
+            let Ca
+            if(area.data().carreras !== undefined){
+                console.log("area seleccionada",area.data().carreras);
+                Ca=[...area.data().carreras, {idCarrera:adD.id, nombre:nombreCarrera}];
+            } else {
+                Ca=[{idCarrera:adD.id, nombre:nombreCarrera}];
+            }
+            
             await updateDoc(doc(db, "Areas",areaSeleccionada), {carreras:Ca});
             console.log('data updated');
         }else{
