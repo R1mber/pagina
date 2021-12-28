@@ -47,7 +47,6 @@ function App() {
         <button className={buttons.carrera?'btn btn-primary': 'btn btn-secondary'} onClick={() => changeView('carrera')}>
             Carreras
         </button>*/}
-        </button>
         <button className={buttons.preguntaImagen?'btn btn-primary': 'btn btn-secondary'} onClick={() => changeView('preguntaImagen')}>
         pregunta con Imagen
         </button>
