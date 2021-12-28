@@ -240,7 +240,7 @@ export default function FormularioMath(){
             atp.map((item,index) => {
                 if(item.includes('fMtN')){
                     let it=item.replace('fMtN','');
-                    textoPr=textoPr+fPregunta[parseInt(it)];
+                    textoPr=textoPr+'mathViewMTH'+fPregunta[parseInt(it)]+'mathView';
                 }else{
                     textoPr+=item;
                 }
@@ -256,7 +256,7 @@ export default function FormularioMath(){
             atp.map((item,index) => {
                 if(item.includes('fMtN')){
                     let it=item.replace('fMtN','');
-                    textoPr=textoPr+fopcion1[parseInt(it)];
+                    textoPr=textoPr+'mathViewMTH'+fopcion1[parseInt(it)]+'mathView';
                 }else{
                     textoPr+=item;
                 }
@@ -272,7 +272,7 @@ export default function FormularioMath(){
             atp.map((item,index) => {
                 if(item.includes('fMtN')){
                     let it=item.replace('fMtN','');
-                    textoPr=textoPr+fopcion2[parseInt(it)];
+                    textoPr=textoPr+'mathViewMTH'+fopcion2[parseInt(it)]+'mathView';
                 }else{
                     textoPr+=item;
                 }
@@ -288,7 +288,7 @@ export default function FormularioMath(){
             atp.map((item,index) => {
                 if(item.includes('fMtN')){
                     let it=item.replace('fMtN','');
-                    textoPr=textoPr+fopcion3[parseInt(it)];
+                    textoPr=textoPr+'mathViewMTH'+fopcion3[parseInt(it)]+'mathView';
                 }else{
                     textoPr+=item;
                 }
@@ -304,7 +304,7 @@ export default function FormularioMath(){
             atp.map((item,index) => {
                 if(item.includes('fMtN')){
                     let it=item.replace('fMtN','');
-                    textoPr=textoPr+fopcion4[parseInt(it)];
+                    textoPr=textoPr+'mathViewMTH'+fopcion4[parseInt(it)]+'mathView';
                 }else{
                     textoPr+=item;
                 }
